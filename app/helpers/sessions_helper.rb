@@ -8,7 +8,13 @@ module SessionsHelper
   end
 
   def signed_in?
-    !current_user.nil?
+    if !cookies[:remember_token]
+      false # this change was necessary when working through the tutorial 
+            # to avoid "no implicit conversion errors of nil into String"
+            # in current_user if no cookie[:remember_token] existed
+    else
+      !current_user.nil?
+    end
   end
 
   def current_user=(user)
